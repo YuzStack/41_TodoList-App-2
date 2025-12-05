@@ -42,7 +42,7 @@ export const createTodo = function (
   };
 
   todo.toggleChecklist = function () {
-    this.checklist = this.checklist === '❌❌' ? '✅✅' : '❌❌';
+    this.checklist = this.checklist ? false : true;
   };
 
   todo.changePriority = function (newPriority) {
@@ -59,7 +59,7 @@ export const createTodo = function (
   return todo;
 };
 
-export const getTodos = function (projIdx) {
+export const getTodos = function (projIdx = state.activeProjIdx) {
   // Update the active project index
   state.activeProjIdx = projIdx;
 

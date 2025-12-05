@@ -2,6 +2,9 @@ import '../index.css';
 import * as model from './model';
 import projectsView from './views/projectsView';
 import todosView from './views/todosView';
+import { compareAsc, format } from 'date-fns';
+
+// console.log(format(new Date(todoObj.dueDate), 'yyyy-MM-dd'));
 
 const initDefault = function () {
   const brushTodo = model.createTodo(
@@ -9,7 +12,7 @@ const initDefault = function () {
     'Brush my teeth in the morning',
     '6:am',
     'medium',
-    '❌❌',
+    false,
   );
 
   const solatsTodo = model.createTodo(
@@ -17,15 +20,15 @@ const initDefault = function () {
     'Observe my five daily solats',
     'today',
     'high',
-    '❌❌',
+    false,
   );
 
   const eatTodo = model.createTodo(
     'Cook & Eat',
     'Cook and eat my 3 square meals',
     'today',
-    'medium',
-    '❌❌',
+    'low',
+    false,
   );
 
   const readTodo = model.createTodo(
@@ -33,7 +36,7 @@ const initDefault = function () {
     'Read ECE553 lecture materials',
     new Date(),
     'high',
-    '❌❌',
+    false,
     'Academics',
   );
 
@@ -42,13 +45,13 @@ const initDefault = function () {
     'Attend ECE555 class',
     'Dec 19',
     'medium',
-    '❌❌',
+    false,
     'Academics',
   );
 };
 initDefault();
 
-// console.log(model.state)
+// console.log(model.state);
 
 // const updateTodo = {
 //   title: 'Pray',
@@ -74,8 +77,37 @@ const controlSelectProject = function (projIdx) {
   todosView.renderPreview(todos);
 };
 
+const controlCreateTodo = function (todoObj) {
+  // 1. Create a new todo object in the current project
+  const projectName = model.state.projects[model.state.activeProjIdx].name;
+  model.createTodo(
+    todoObj.title,
+    todoObj.description,
+    todoObj.dueDate,
+    todoObj.priority,
+    todoObj.checklist,
+    projectName,
+  );
+
+  // 2. Get all todos in the current project
+  const todos = model.getTodos();
+
+  // 3. Re-render the todos of the current project
+  todosView.renderPreview(todos);
+};
+
+const controlWindowLoad = function () {
+  // 1. Get all todos in the current project
+  const todos = model.getTodos();
+
+  // 2. Re-render the todos of the current project
+  todosView.renderPreview(todos);
+};
+
 const init = function () {
+  todosView.addHandlerWindowLoad(controlWindowLoad);
   projectsView.addHandlerProjectsDrawer(controlProjDraw);
   projectsView.addHandlerClick(controlSelectProject);
+  todosView.addHandlerCreateTodo(controlCreateTodo);
 };
 init();
