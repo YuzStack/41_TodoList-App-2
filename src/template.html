@@ -20,11 +20,35 @@
       <div
         class="projects-container fixed top-0 left-0 z-10 h-screen w-[175px] -translate-x-full items-baseline bg-gray-900 px-3 py-2 font-bold text-white duration-300 ease-in-out"
       >
-        <h1 class="mb-3 ml-0 text-lg">PROJECTS</h1>
+        <div class="flex items-center justify-between">
+          <h1 class="mb-3 ml-0 text-lg">PROJECTS</h1>
+        </div>
         <div class="projects flex flex-col items-baseline gap-2 pl-5">
           <!-- <button>Family</button>
           <button>Default</button>
           <button>Work</button> -->
+
+          <!-- <div class="mt-2 flex items-center gap-2">
+            <div
+              class="add-proj-btn flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-gray-500 opacity-90 duration-200 ease-in-out"
+            >
+              <button
+                class="flex h-5 w-5 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent p-0 text-3xl leading-none font-extralight"
+              >
+                <span class="-translate-y-[7.5%] cursor-pointer">+</span>
+              </button>
+            </div>
+            <form
+              class="add-project-form flex max-w-[120px] -translate-y-3 gap-0 rounded-sm bg-white opacity-0 duration-200 ease-in-out"
+            >
+              <input
+                type="text"
+                placeholder="Project name..."
+                class="project-name-input max-w-[100px] bg-transparent px-2 py-1 text-sm text-gray-900 focus:outline-none"
+              />
+              <button class="w-5 rounded-r-sm bg-blue-600 text-white">➜</button>
+            </form>
+          </div> -->
         </div>
       </div>
     </header>
@@ -48,7 +72,7 @@
         </div> -->
       </div>
 
-      <!-- Dialog -->
+      <!-- Create Todo Dialog -->
       <dialog
         open
         class="dialog absolute top-[5%] left-0 -z-10 m-auto min-h-[500px] min-w-[300px] translate-y-5 rounded-md bg-blue-900 p-3 text-white opacity-0 duration-300 ease-in-out focus:outline-0"

@@ -8,7 +8,7 @@ export const state = {
   activeProjIdx: 0,
 };
 
-const createProject = function (name) {
+export const createProject = function (name) {
   // Create new project
   const project = { name, todos: [] };
 

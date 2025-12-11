@@ -13,6 +13,10 @@ const todosView = (function () {
   const todoPriorityLvlOptEl = document.querySelector('#priority-level');
   const todoChecklistInpEl = document.querySelector('#cheklist');
 
+  const defMessage = `
+    <p class="text-sm text-gray-500">Seems there's no todo addded for this project yet, click the "+" button above to add one :)</p>
+  `;
+
   // Show dialog box
   createTodoBtn.addEventListener('click', function () {
     // dialogBox.showModal();
@@ -22,12 +26,12 @@ const todosView = (function () {
     todoTitleInpEl.focus();
   });
 
+  // Handle todo's full view ‼️‼️
   todos.addEventListener('click', function (e) {
-    console.log(e.target);
+    // console.log(e.target);
   });
 
   const getInputs = function () {
-    // console.log(todoDuedateInpEl.value);
     return {
       title: todoTitleInpEl.value,
       description: todoDesInpEl.value,
@@ -99,7 +103,18 @@ const todosView = (function () {
 
   const clear = () => (parentEl.innerHTML = '');
 
+  const renderMessage = function () {
+    clear();
+    parentEl.insertAdjacentHTML('afterbegin', defMessage);
+  };
+
   const renderPreview = function (details) {
+    // Check if there's any data (details) to render
+    if (!details || (Array.isArray(details) && details.length === 0)) {
+      return renderMessage();
+    }
+
+    console.log(details);
     const markup = generatePreviewMarkup(details);
 
     clear();

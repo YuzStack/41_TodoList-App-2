@@ -7,29 +7,29 @@ import { compareAsc, format } from 'date-fns';
 // console.log(format(new Date(todoObj.dueDate), 'yyyy-MM-dd'));
 
 const initDefault = function () {
-  const brushTodo = model.createTodo(
-    'Brush teeth',
-    'Brush my teeth in the morning',
-    '6:am',
-    'medium',
-    false,
-  );
+  // const brushTodo = model.createTodo(
+  //   'Brush teeth',
+  //   'Brush my teeth in the morning',
+  //   '6:am',
+  //   'medium',
+  //   false,
+  // );
 
-  const solatsTodo = model.createTodo(
-    'Observe Solats',
-    'Observe my five daily solats',
-    'today',
-    'high',
-    false,
-  );
+  // const solatsTodo = model.createTodo(
+  //   'Observe Solats',
+  //   'Observe my five daily solats',
+  //   'today',
+  //   'high',
+  //   false,
+  // );
 
-  const eatTodo = model.createTodo(
-    'Cook & Eat',
-    'Cook and eat my 3 square meals',
-    'today',
-    'low',
-    false,
-  );
+  // const eatTodo = model.createTodo(
+  //   'Cook & Eat',
+  //   'Cook and eat my 3 square meals',
+  //   'today',
+  //   'low',
+  //   false,
+  // );
 
   const readTodo = model.createTodo(
     'Read book',
@@ -104,10 +104,19 @@ const controlWindowLoad = function () {
   todosView.renderPreview(todos);
 };
 
+const controlCreateProj = function (projName) {
+  // 1. Create a new project with the project name
+  model.createProject(projName);
+
+  // 2. Re-render the project view
+  projectsView.render(model.getProjects());
+};
+
 const init = function () {
   todosView.addHandlerWindowLoad(controlWindowLoad);
   projectsView.addHandlerProjectsDrawer(controlProjDraw);
   projectsView.addHandlerClick(controlSelectProject);
   todosView.addHandlerCreateTodo(controlCreateTodo);
+  projectsView.addHandlerCreateProj(controlCreateProj);
 };
 init();
