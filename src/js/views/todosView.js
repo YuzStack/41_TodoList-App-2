@@ -1,3 +1,7 @@
+import { compareAsc, format } from 'date-fns';
+
+// console.log(format(new Date(todoObj.dueDate), 'yyyy-MM-dd'));
+
 const todosView = (function () {
   const parentEl = document.querySelector('.todos-subcontainer');
 
@@ -74,23 +78,22 @@ const todosView = (function () {
         const getPriorityLevel = function () {
           switch (detail.priority) {
             case 'high':
-              return 'bg-red-500';
+              return 'red-500';
             case 'medium':
-              return 'bg-yellow-500';
+              return 'yellow-500';
             case 'low':
-              return 'bg-green-500';
+              return 'green-500';
           }
         };
 
         return `
           <div class="todo flex flex-col gap-2">
             <div class="flex items-center gap-3 leading-5">
-              <div class="cheklist h-5 w-5 rounded-sm bg-black"></div>
-              <div>
+              <div class="border-l-4 border-${getPriorityLevel()} pl-2.5">
                 <p class="todo-title">${detail.title}</p>
                 <div class="flex items-center justify-between gap-2">
                   <p class="dueDate font-serif text-sm text-gray-600">${detail.dueDate}</p>
-                  <div class="priority h-3 w-3 rounded-full ${getPriorityLevel()}"></div>
+                  <div class="priority">${detail.checklist ? '✅✅' : '⏳⏳'}</div>
                 </div>
               </div>
             </div>
@@ -114,7 +117,6 @@ const todosView = (function () {
       return renderMessage();
     }
 
-    console.log(details);
     const markup = generatePreviewMarkup(details);
 
     clear();

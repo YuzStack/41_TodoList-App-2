@@ -2,36 +2,33 @@ import '../index.css';
 import * as model from './model';
 import projectsView from './views/projectsView';
 import todosView from './views/todosView';
-import { compareAsc, format } from 'date-fns';
-
-// console.log(format(new Date(todoObj.dueDate), 'yyyy-MM-dd'));
 
 const initDefault = function () {
-  // const brushTodo = model.createTodo(
-  //   'Brush teeth',
-  //   'Brush my teeth in the morning',
-  //   '6:am',
-  //   'medium',
-  //   false,
-  // );
+  model.createTodo(
+    'Brush teeth',
+    'Brush my teeth in the morning',
+    '6:am',
+    'medium',
+    false,
+  );
 
-  // const solatsTodo = model.createTodo(
-  //   'Observe Solats',
-  //   'Observe my five daily solats',
-  //   'today',
-  //   'high',
-  //   false,
-  // );
+  model.createTodo(
+    'Observe Solats',
+    'Observe my five daily solats',
+    'today',
+    'high',
+    true,
+  );
 
-  // const eatTodo = model.createTodo(
-  //   'Cook & Eat',
-  //   'Cook and eat my 3 square meals',
-  //   'today',
-  //   'low',
-  //   false,
-  // );
+  model.createTodo(
+    'Cook & Eat',
+    'Cook and eat my 3 square meals',
+    'today',
+    'low',
+    false,
+  );
 
-  const readTodo = model.createTodo(
+  model.createTodo(
     'Read book',
     'Read ECE553 lecture materials',
     new Date(),
@@ -40,7 +37,7 @@ const initDefault = function () {
     'Academics',
   );
 
-  const classTodo = model.createTodo(
+  model.createTodo(
     'Attend Class',
     'Attend ECE555 class',
     'Dec 19',
