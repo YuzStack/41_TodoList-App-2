@@ -1,4 +1,4 @@
-import { compareAsc, format } from 'date-fns';
+import { format } from 'date-fns';
 
 // console.log(format(new Date(todoObj.dueDate), 'yyyy-MM-dd'));
 
@@ -21,7 +21,7 @@ const todosView = (function () {
     <p class="text-sm text-gray-500">Seems there's no todo addded for this project yet, click the "+" button above to add one :)</p>
   `;
 
-  // Show dialog box
+  // Show addTodo dialog box
   createTodoBtn.addEventListener('click', function () {
     // dialogBox.showModal();
     dialogBox.classList.remove('opacity-0', 'translate-y-5');
@@ -73,6 +73,9 @@ const todosView = (function () {
   };
 
   const generatePreviewMarkup = function (details) {
+    // Sort the details (todos) array in ascending order according to their dueDate property (Earliest Date First)
+    details.sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
+
     return details
       .map(detail => {
         const getPriorityLevel = function () {
@@ -92,7 +95,7 @@ const todosView = (function () {
               <div class="border-l-4 border-${getPriorityLevel()} pl-2.5">
                 <p class="todo-title">${detail.title}</p>
                 <div class="flex items-center justify-between gap-2">
-                  <p class="dueDate font-serif text-sm text-gray-600">${detail.dueDate}</p>
+                  <p class="dueDate font-serif text-sm text-gray-600">${format(detail.dueDate, 'dd-MM-yyyy')}</p>
                   <div class="priority">${detail.checklist ? '✅✅' : '⏳⏳'}</div>
                 </div>
               </div>

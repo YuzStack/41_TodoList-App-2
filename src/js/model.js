@@ -67,9 +67,9 @@ export const getTodos = function (projIdx = state.activeProjIdx) {
   return state.projects[state.activeProjIdx].todos;
 };
 
-export const editTodo = function (todoId, updTodoObj, projectIdx = 0) {
+export const editTodo = function (todoId, updTodoObj) {
   // 1. Find that specific todo in the state
-  const todo = state.projects[projectIdx].todos.find(
+  const todo = state.projects[state.activeProjIdx].todos.find(
     todo => todo.id === todoId,
   );
 
@@ -81,9 +81,9 @@ export const editTodo = function (todoId, updTodoObj, projectIdx = 0) {
   todo.checklist = todo.checklist;
 };
 
-export const deleteTodo = function (todoId, projectIdx = 0) {
+export const deleteTodo = function (todoId) {
   // 1. Find that specific todo and its index in the state
-  const todo = state.projects[projectIdx].todos.find(
+  const todo = state.projects[state.activeProjIdx].todos.find(
     todo => todo.id === todoId,
   );
   const todoIdx = state.projects[projectIdx].todos.indexOf(todo);

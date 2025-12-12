@@ -7,23 +7,23 @@ const initDefault = function () {
   model.createTodo(
     'Brush teeth',
     'Brush my teeth in the morning',
-    '6:am',
+    new Date(),
     'medium',
-    false,
+    true,
   );
 
   model.createTodo(
     'Observe Solats',
     'Observe my five daily solats',
-    'today',
+    new Date(2025, 11, 17, 15),
     'high',
-    true,
+    false,
   );
 
   model.createTodo(
     'Cook & Eat',
     'Cook and eat my 3 square meals',
-    'today',
+    new Date(2025, 11, 15, 12),
     'low',
     false,
   );
@@ -31,7 +31,7 @@ const initDefault = function () {
   model.createTodo(
     'Read book',
     'Read ECE553 lecture materials',
-    new Date(),
+    new Date(2025, 11, 25),
     'high',
     false,
     'Academics',
@@ -40,7 +40,7 @@ const initDefault = function () {
   model.createTodo(
     'Attend Class',
     'Attend ECE555 class',
-    'Dec 19',
+    new Date(2025, 11, 20),
     'medium',
     false,
     'Academics',
