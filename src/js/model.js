@@ -96,8 +96,8 @@ export const editTodo = function (todoId, updTodoObj) {
 export const deleteTodo = function (todoId) {
   // 1. Find that specific todo and its index in the state
   const todo = findTodo(todoId);
-  const todoIdx = state.projects[projectIdx].todos.indexOf(todo);
+  const todoIdx = state.projects[state.activeProjIdx].todos.indexOf(todo);
 
   // 2. Delete the todo from state
-  state.projects[projectIdx].todos.splice(todoIdx, 1);
+  state.projects[state.activeProjIdx].todos.splice(todoIdx, 1);
 };

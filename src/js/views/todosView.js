@@ -28,6 +28,8 @@ const todosView = (function () {
   const todoDesInpElFV = document.querySelector('.todo-description');
   const toggComplBtn = document.querySelector('.toggle-completion-btn');
 
+  let curTodo;
+
   const defMessage = `
     <p class="text-sm text-gray-500">Seems there's no todo addded for this project yet, click the "+" button above to add one :)</p>
   `;
@@ -135,6 +137,11 @@ const todosView = (function () {
     parentEl.insertAdjacentHTML('afterbegin', defMessage);
   };
 
+  const closeFullViewWindow = function () {
+    fullTodoViewEl.classList.replace('z-20', '-z-20');
+    fullTodoViewEl.classList.replace('opacity-100', 'opacity-0');
+  };
+
   // Render all todos preivew ‼️
   const renderPreview = function (todos) {
     // Check if there's any data (todos) to render
@@ -150,6 +157,9 @@ const todosView = (function () {
 
   // Handle todo full view ‼️
   const renderFullView = function (todo) {
+    // Set as current todo
+    curTodo = todo;
+
     // Open Window (make it visible)
     fullTodoViewEl.classList.replace('-z-20', 'z-20');
     fullTodoViewEl.classList.replace('opacity-0', 'opacity-100');
@@ -172,22 +182,25 @@ const todosView = (function () {
 
     toggComplBtn; // Yet to be dealt with...
 
-    // Handles cheklist toggle feature 
+    // Handle cheklist toggle feature
     // Requires maximum attention ‼️‼️
     // toggComplBtn.addEventListener('click', function () {
     //   todo.toggleChecklist();
     //   console.log(todo)
     // });
 
-    const closeFullViewWindow = function () {
-      fullTodoViewEl.classList.replace('z-20', '-z-20');
-      fullTodoViewEl.classList.replace('opacity-100', 'opacity-0');
-    };
-
-    // Handles window close
+    // Handle window close
     fullTodoViewEl.addEventListener('click', function (e) {
       if (!e.target.closest('.full-todo-view-sub-container'))
         closeFullViewWindow();
+    });
+  };
+
+  // Handle delete todo
+  const addHandlerDeleteTodo = function (handler) {
+    deleteTodoBtn.addEventListener('click', function () {
+      handler(curTodo.id);
+      closeFullViewWindow();
     });
   };
 
@@ -202,6 +215,7 @@ const todosView = (function () {
     addHanlderClick,
     addHandlerWindowLoad,
     renderFullView,
+    addHandlerDeleteTodo,
   };
 })();
 

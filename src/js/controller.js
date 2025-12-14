@@ -101,6 +101,17 @@ const controlSelectTodo = function (todoId) {
   todosView.renderFullView(todo);
 };
 
+const controlDeleteTodo = function (todoId) {
+  // 1. Delete the todo from state
+  model.deleteTodo(todoId);
+
+  // 2. Get all todos in the current project
+  const todos = model.getTodos();
+
+  // 3. Update the todos view
+  todosView.renderPreview(todos);
+};
+
 const controlWindowLoad = function () {
   // 1. Get all todos in the current project
   const todos = model.getTodos();
@@ -121,6 +132,7 @@ const init = function () {
   todosView.addHandlerWindowLoad(controlWindowLoad);
   todosView.addHandlerCreateTodo(controlCreateTodo);
   todosView.addHanlderClick(controlSelectTodo);
+  todosView.addHandlerDeleteTodo(controlDeleteTodo);
   projectsView.addHandlerProjectsDrawer(controlProjDraw);
   projectsView.addHandlerClick(controlSelectProject);
   projectsView.addHandlerCreateProj(controlCreateProj);
