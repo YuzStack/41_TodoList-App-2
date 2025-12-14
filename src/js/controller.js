@@ -6,7 +6,7 @@ import todosView from './views/todosView';
 const initDefault = function () {
   model.createTodo(
     'Brush teeth',
-    'Brush my teeth in the morning',
+    'Brush my teeth in the morning.',
     new Date(),
     'medium',
     true,
@@ -14,7 +14,7 @@ const initDefault = function () {
 
   model.createTodo(
     'Observe Solats',
-    'Observe my five daily solats',
+    'Observe my five daily solats.',
     new Date(2025, 11, 17, 15),
     'high',
     false,
@@ -22,7 +22,7 @@ const initDefault = function () {
 
   model.createTodo(
     'Cook & Eat',
-    'Cook and eat my 3 square meals',
+    'Cook and eat my 3 square meals.',
     new Date(2025, 11, 15, 12),
     'low',
     false,
@@ -30,7 +30,7 @@ const initDefault = function () {
 
   model.createTodo(
     'Read book',
-    'Read ECE553 lecture materials',
+    'Read ECE553 lecture materials.',
     new Date(2025, 11, 25),
     'high',
     false,
@@ -39,7 +39,7 @@ const initDefault = function () {
 
   model.createTodo(
     'Attend Class',
-    'Attend ECE555 class',
+    'Attend ECE555 class.',
     new Date(2025, 11, 20),
     'medium',
     false,
@@ -93,6 +93,14 @@ const controlCreateTodo = function (todoObj) {
   todosView.renderPreview(todos);
 };
 
+const controlSelectTodo = function (todoId) {
+  // 1. Get the full details of the clicked todo
+  const todo = model.getTodo(todoId);
+
+  // 2. Display the full view of the todo
+  todosView.renderFullView(todo);
+};
+
 const controlWindowLoad = function () {
   // 1. Get all todos in the current project
   const todos = model.getTodos();
@@ -111,9 +119,10 @@ const controlCreateProj = function (projName) {
 
 const init = function () {
   todosView.addHandlerWindowLoad(controlWindowLoad);
+  todosView.addHandlerCreateTodo(controlCreateTodo);
+  todosView.addHanlderClick(controlSelectTodo);
   projectsView.addHandlerProjectsDrawer(controlProjDraw);
   projectsView.addHandlerClick(controlSelectProject);
-  todosView.addHandlerCreateTodo(controlCreateTodo);
   projectsView.addHandlerCreateProj(controlCreateProj);
 };
 init();

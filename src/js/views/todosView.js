@@ -3,11 +3,10 @@ import { format } from 'date-fns';
 // console.log(format(new Date(todoObj.dueDate), 'yyyy-MM-dd'));
 
 const todosView = (function () {
-  const parentEl = document.querySelector('.todos-subcontainer');
+  const parentEl = document.querySelector('.todos');
 
   const dialogBox = document.querySelector('.dialog');
   const createTodoBtn = document.querySelector('.create-todo-btn');
-  const todos = document.querySelector('.todos-subcontainer');
   const dialogOverlay = document.querySelector('.dialog-overlay');
   const dialogFormEl = document.querySelector('.dialog-form');
 
@@ -17,21 +16,43 @@ const todosView = (function () {
   const todoPriorityLvlOptEl = document.querySelector('#priority-level');
   const todoChecklistInpEl = document.querySelector('#cheklist');
 
+  const fullTodoViewEl = document.querySelector('.full-todo-view-container');
+  const fullTodoViewSubEl = document.querySelector(
+    '.full-todo-view-sub-container',
+  );
+  const editTodoBtn = document.querySelector('.edit-todo-btn');
+  const deleteTodoBtn = document.querySelector('.delete-todo-btn');
+  const todoTitleInpElFV = document.querySelector('.todo-title');
+  const todoPriorityLvlElFV = document.querySelector('.priority-lvl-indicator');
+  const todoDuedateInpElFV = document.querySelector('.due-date');
+  const todoDesInpElFV = document.querySelector('.todo-description');
+  const toggComplBtn = document.querySelector('.toggle-completion-btn');
+
   const defMessage = `
     <p class="text-sm text-gray-500">Seems there's no todo addded for this project yet, click the "+" button above to add one :)</p>
   `;
 
-  // Show addTodo dialog box
+  // Show addTodo dialog box ‼️
   createTodoBtn.addEventListener('click', function () {
     // dialogBox.showModal();
     dialogBox.classList.remove('opacity-0', 'translate-y-5');
-    dialogBox.classList.replace('-z-10', 'z-8');
+    dialogBox.classList.replace('-z-10', 'z-10');
     dialogOverlay.classList.remove('hidden');
     todoTitleInpEl.focus();
   });
 
-  // Handle todo's full view ‼️‼️
-  todos.addEventListener('click', function (e) {
+  // Handle todo's full view ‼️
+  const addHanlderClick = function (handler) {
+    parentEl.addEventListener('click', function (e) {
+      const todo = e.target.closest('.todo');
+      if (!todo) return;
+
+      const todoId = todo.dataset.id;
+      handler(todoId);
+    });
+  };
+
+  parentEl.addEventListener('click', function (e) {
     // console.log(e.target);
   });
 
@@ -72,31 +93,31 @@ const todosView = (function () {
     });
   };
 
-  const generatePreviewMarkup = function (details) {
-    // Sort the details (todos) array in ascending order according to their dueDate property (Earliest Date First)
-    details.sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
+  const getPriorityLevel = function (todo) {
+    switch (todo.priority) {
+      case 'high':
+        return 'red';
+      case 'medium':
+        return 'yellow';
+      case 'low':
+        return 'green';
+    }
+  };
 
-    return details
-      .map(detail => {
-        const getPriorityLevel = function () {
-          switch (detail.priority) {
-            case 'high':
-              return 'red-500';
-            case 'medium':
-              return 'yellow-500';
-            case 'low':
-              return 'green-500';
-          }
-        };
+  const generatePreviewMarkup = function (todos) {
+    // Sort the todos (todos) array in ascending order according to their dueDate property (Earliest Date First)
+    todos.sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
 
+    return todos
+      .map(todo => {
         return `
-          <div class="todo flex flex-col gap-2">
+          <div class="todo flex flex-col gap-2" data-id="${todo.id}">
             <div class="flex items-center gap-3 leading-5">
-              <div class="border-l-4 border-${getPriorityLevel()} pl-2.5">
-                <p class="todo-title">${detail.title}</p>
-                <div class="flex items-center justify-between gap-2">
-                  <p class="dueDate font-serif text-sm text-gray-600">${format(detail.dueDate, 'dd-MM-yyyy')}</p>
-                  <div class="priority">${detail.checklist ? '✅✅' : '⏳⏳'}</div>
+              <div class="border-l-4 border-${getPriorityLevel(todo)}-500 pl-2.5">
+                <p class="todo-title">${todo.title}</p>
+                <div class="flex items-center justify-between gap-3">
+                  <p class="dueDate font-serif text-sm text-gray-600">${format(todo.dueDate, 'dd-MM-yyyy')}</p>
+                  <div class="priority">${todo.checklist ? '✅✅' : '⏳⏳'}</div>
                 </div>
               </div>
             </div>
@@ -114,23 +135,74 @@ const todosView = (function () {
     parentEl.insertAdjacentHTML('afterbegin', defMessage);
   };
 
-  const renderPreview = function (details) {
-    // Check if there's any data (details) to render
-    if (!details || (Array.isArray(details) && details.length === 0)) {
+  // Render all todos preivew ‼️
+  const renderPreview = function (todos) {
+    // Check if there's any data (todos) to render
+    if (!todos || (Array.isArray(todos) && todos.length === 0)) {
       return renderMessage();
     }
 
-    const markup = generatePreviewMarkup(details);
+    const markup = generatePreviewMarkup(todos);
 
     clear();
     parentEl.insertAdjacentHTML('afterbegin', markup);
   };
 
+  // Handle todo full view ‼️
+  const renderFullView = function (todo) {
+    // Open Window (make it visible)
+    fullTodoViewEl.classList.replace('-z-20', 'z-20');
+    fullTodoViewEl.classList.replace('opacity-0', 'opacity-100');
+
+    // Fill the inputs with the details of the clicked todo
+    todoTitleInpElFV.value = todo.title;
+
+    todoPriorityLvlElFV.classList.add(
+      `bg-${getPriorityLevel(todo)}-100`,
+      `text-${getPriorityLevel(todo)}-600`,
+    );
+
+    todoPriorityLvlElFV.textContent =
+      todo.priority === 'medium'
+        ? 'MID PRIORITY'
+        : `${todo.priority.toUpperCase()} PRIORITY`;
+
+    todoDuedateInpElFV.value = format(todo.dueDate, 'yyyy-MM-dd');
+    todoDesInpElFV.value = todo.description;
+
+    toggComplBtn; // Yet to be dealt with...
+
+    // Handles cheklist toggle feature 
+    // Requires maximum attention ‼️‼️
+    // toggComplBtn.addEventListener('click', function () {
+    //   todo.toggleChecklist();
+    //   console.log(todo)
+    // });
+
+    const closeFullViewWindow = function () {
+      fullTodoViewEl.classList.replace('z-20', '-z-20');
+      fullTodoViewEl.classList.replace('opacity-100', 'opacity-0');
+    };
+
+    // Handles window close
+    fullTodoViewEl.addEventListener('click', function (e) {
+      if (!e.target.closest('.full-todo-view-sub-container'))
+        closeFullViewWindow();
+    });
+  };
+
+  // Handle initial page load ‼️
   const addHandlerWindowLoad = function (handler) {
     window.addEventListener('load', handler);
   };
 
-  return { renderPreview, addHandlerCreateTodo, addHandlerWindowLoad };
+  return {
+    renderPreview,
+    addHandlerCreateTodo,
+    addHanlderClick,
+    addHandlerWindowLoad,
+    renderFullView,
+  };
 })();
 
 export default todosView;

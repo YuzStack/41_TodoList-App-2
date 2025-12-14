@@ -121,12 +121,3 @@ const projectsView = (function () {
 })();
 
 export default projectsView;
-
-// Testing shit...
-/* document
-  .querySelector('.projects-container')
-  .classList.remove('-translate-x-full');
-
-const addProjBtn = document.querySelector('.add-proj-btn');
-const projNameInpEl = document.querySelector('.project-name-input');
-const addProjFormEl = document.querySelector('.add-project-form'); */

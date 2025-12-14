@@ -67,11 +67,23 @@ export const getTodos = function (projIdx = state.activeProjIdx) {
   return state.projects[state.activeProjIdx].todos;
 };
 
-export const editTodo = function (todoId, updTodoObj) {
-  // 1. Find that specific todo in the state
-  const todo = state.projects[state.activeProjIdx].todos.find(
+const findTodo = function (todoId) {
+  return state.projects[state.activeProjIdx].todos.find(
     todo => todo.id === todoId,
   );
+};
+
+export const getTodo = function (todoId) {
+  // 1. Find that specific todo in the state
+  const todo = findTodo(todoId);
+
+  // 2. Return that specific todo
+  return todo;
+};
+
+export const editTodo = function (todoId, updTodoObj) {
+  // 1. Find that specific todo in the state
+  const todo = findTodo(todoId);
 
   // 2. Update the Todo's properties
   todo.title = updTodoObj.title;
@@ -83,9 +95,7 @@ export const editTodo = function (todoId, updTodoObj) {
 
 export const deleteTodo = function (todoId) {
   // 1. Find that specific todo and its index in the state
-  const todo = state.projects[state.activeProjIdx].todos.find(
-    todo => todo.id === todoId,
-  );
+  const todo = findTodo(todoId);
   const todoIdx = state.projects[projectIdx].todos.indexOf(todo);
 
   // 2. Delete the todo from state
