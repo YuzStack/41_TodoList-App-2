@@ -89,7 +89,6 @@ export const editTodo = function (todoId, updTodoObj) {
   todo.title = updTodoObj.title;
   todo.description = updTodoObj.description;
   todo.dueDate = updTodoObj.dueDate;
-  todo.priority = updTodoObj.priority;
   todo.checklist = todo.checklist;
 };
 

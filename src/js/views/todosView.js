@@ -17,9 +17,6 @@ const todosView = (function () {
   const todoChecklistInpEl = document.querySelector('#cheklist');
 
   const fullTodoViewEl = document.querySelector('.full-todo-view-container');
-  const fullTodoViewSubEl = document.querySelector(
-    '.full-todo-view-sub-container',
-  );
   const editTodoBtn = document.querySelector('.edit-todo-btn');
   const deleteTodoBtn = document.querySelector('.delete-todo-btn');
   const todoTitleInpElFV = document.querySelector('.todo-title');
@@ -196,6 +193,21 @@ const todosView = (function () {
     });
   };
 
+  // Handle edit todo
+  const addHanlerEditTodo = function (handler) {
+    editTodoBtn.addEventListener('click', function () {
+      const updTodoObj = {
+        title: todoTitleInpElFV.value,
+        description: todoDesInpElFV.value,
+        dueDate: new Date(todoDuedateInpElFV.value),
+        checklist: curTodo.checklist,
+      };
+
+      handler(curTodo.id, updTodoObj);
+      closeFullViewWindow();
+    });
+  };
+
   // Handle delete todo
   const addHandlerDeleteTodo = function (handler) {
     deleteTodoBtn.addEventListener('click', function () {
@@ -216,6 +228,7 @@ const todosView = (function () {
     addHandlerWindowLoad,
     renderFullView,
     addHandlerDeleteTodo,
+    addHanlerEditTodo,
   };
 })();
 
