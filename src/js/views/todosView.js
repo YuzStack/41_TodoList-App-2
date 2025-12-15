@@ -33,14 +33,22 @@ const todosView = (function () {
 
   // Show addTodo dialog box ‼️
   createTodoBtn.addEventListener('click', function () {
-    // dialogBox.showModal();
     dialogBox.classList.remove('opacity-0', 'translate-y-5');
     dialogBox.classList.replace('-z-10', 'z-10');
     dialogOverlay.classList.remove('hidden');
     todoTitleInpEl.focus();
   });
 
-  // Handle todo's full view ‼️
+  const closeAddTodoDialog = function () {
+    dialogBox.classList.add('opacity-0', 'translate-y-5');
+    dialogBox.classList.replace('z-8', '-z-10');
+    dialogOverlay.classList.add('hidden');
+  };
+
+  // Close create/add todo dialog box
+  dialogOverlay.addEventListener('click', closeAddTodoDialog);
+
+  // Handle todo click ‼️
   const addHanlderClick = function (handler) {
     parentEl.addEventListener('click', function (e) {
       const todo = e.target.closest('.todo');
@@ -50,10 +58,6 @@ const todosView = (function () {
       handler(todoId);
     });
   };
-
-  parentEl.addEventListener('click', function (e) {
-    // console.log(e.target);
-  });
 
   const getInputs = function () {
     return {
@@ -80,10 +84,8 @@ const todosView = (function () {
       // Get the inputs
       const todoObj = getInputs();
 
-      // Close dialog box
-      dialogBox.classList.add('opacity-0', 'translate-y-5');
-      dialogBox.classList.replace('z-8', '-z-10');
-      dialogOverlay.classList.add('hidden');
+      // Close create/add todo dialog box
+      closeAddTodoDialog();
 
       // Clear the inputs
       setTimeout(clearInputs, 300);
@@ -152,7 +154,7 @@ const todosView = (function () {
     parentEl.insertAdjacentHTML('afterbegin', markup);
   };
 
-  // Handle todo full view ‼️
+  // Render todo full view ‼️
   const renderFullView = function (todo) {
     // Set as current todo
     curTodo = todo;
@@ -177,19 +179,34 @@ const todosView = (function () {
     todoDuedateInpElFV.value = format(todo.dueDate, 'yyyy-MM-dd');
     todoDesInpElFV.value = todo.description;
 
-    toggComplBtn; // Yet to be dealt with...
+    // Handle cheklist state
+    if (todo.checklist) {
+      // Remove previous styling(s)
+      toggComplBtn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
 
-    // Handle cheklist toggle feature
-    // Requires maximum attention ‼️‼️
-    // toggComplBtn.addEventListener('click', function () {
-    //   todo.toggleChecklist();
-    //   console.log(todo)
-    // });
+      // Add new styling(s) and overwrite the textContent
+      toggComplBtn.classList.add('bg-gray-400');
+      toggComplBtn.textContent = '✅ Task Completed (click to incomplete)';
+    } else {
+      // Remove previous styling(s)
+      toggComplBtn.classList.remove('bg-gray-400');
+
+      // Add new styling(s) and overwrite the textContent
+      toggComplBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+      toggComplBtn.textContent = '☐ Mark Complete';
+    }
 
     // Handle window close
     fullTodoViewEl.addEventListener('click', function (e) {
       if (!e.target.closest('.full-todo-view-sub-container'))
         closeFullViewWindow();
+    });
+  };
+
+  // Handle todo toggle completion
+  const addHandlerToggTodoCompl = function (handler) {
+    toggComplBtn.addEventListener('click', function () {
+      handler(curTodo);
     });
   };
 
@@ -229,6 +246,7 @@ const todosView = (function () {
     renderFullView,
     addHandlerDeleteTodo,
     addHanlerEditTodo,
+    addHandlerToggTodoCompl,
   };
 })();
 

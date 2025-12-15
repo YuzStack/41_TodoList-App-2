@@ -48,16 +48,6 @@ const initDefault = function () {
 };
 initDefault();
 
-// console.log(model.state);
-
-// const updateTodo = {
-//   title: 'Pray',
-//   description: 'Pray zhur at 1:30pm',
-//   dueDate: new Date(),
-//   priority: 'medium',
-//   checklist: '✅✅',
-// };
-
 const controlProjDraw = function () {
   // 1. Get available projects from state
   const projects = model.getProjects();
@@ -101,6 +91,17 @@ const controlSelectTodo = function (todoId) {
   todosView.renderFullView(todo);
 };
 
+const controlToggTodoCompl = function (todo) {
+  // 1. Toggle the todo's checklist property in the state
+  model.toggleChecklist(todo.id);
+
+  // 2. Re-render the todos
+  todosView.renderPreview(model.getTodos());
+
+  // 3. Re-render the todo full view
+  todosView.renderFullView(todo);
+};
+
 const controlEditTodo = function (todoId, updTodoObj) {
   // 1. Update the todo in the state
   model.editTodo(todoId, updTodoObj);
@@ -133,12 +134,15 @@ const controlCreateProj = function (projName) {
   projectsView.render(model.getProjects());
 };
 
+// EVENT LISTENERS (publisher-subscriber pattern)
 const init = function () {
   todosView.addHandlerWindowLoad(controlWindowLoad);
   todosView.addHandlerCreateTodo(controlCreateTodo);
   todosView.addHanlderClick(controlSelectTodo);
+  todosView.addHandlerToggTodoCompl(controlToggTodoCompl);
   todosView.addHanlerEditTodo(controlEditTodo);
   todosView.addHandlerDeleteTodo(controlDeleteTodo);
+
   projectsView.addHandlerProjectsDrawer(controlProjDraw);
   projectsView.addHandlerClick(controlSelectProject);
   projectsView.addHandlerCreateProj(controlCreateProj);

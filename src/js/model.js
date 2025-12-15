@@ -41,14 +41,6 @@ export const createTodo = function (
     id: crypto.randomUUID(),
   };
 
-  todo.toggleChecklist = function () {
-    this.checklist = this.checklist ? false : true;
-  };
-
-  todo.changePriority = function (newPriority) {
-    this.priority = newPriority;
-  };
-
   // Update the state with the new todo
   let specProj = state.projects.find(proj => proj.name === project);
   if (!specProj) {
@@ -57,6 +49,14 @@ export const createTodo = function (
   specProj.todos.push(todo);
 
   return todo;
+};
+
+export const toggleChecklist = function (todoId) {
+  // Find the todo
+  const todo = findTodo(todoId);
+
+  // Toggle its checklist property
+  todo.checklist = todo.checklist ? false : true;
 };
 
 export const getTodos = function (projIdx = state.activeProjIdx) {

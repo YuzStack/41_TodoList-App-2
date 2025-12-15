@@ -3,10 +3,9 @@ const projectsView = (function () {
   const projsContainer = document.querySelector('.projects-container');
   const projDrawBtn = document.querySelector('.proj-draw-btn');
 
-  // Use the 'let' keyword to declare the soon-to-be-defined HTML elements
   let addProjBtn, addProjFormEl, projNameInpEl;
 
-  // Handles the slide-in-out of the projects container
+  // Handle the slide-in-out of the projects container
   const addHandlerProjectsDrawer = function (handler) {
     projDrawBtn.addEventListener('click', function () {
       projsContainer.classList.toggle('-translate-x-full');
@@ -15,6 +14,7 @@ const projectsView = (function () {
     });
   };
 
+  // Handle the project click ‼️
   const addHandlerClick = function (handler) {
     parentEl.addEventListener('click', function (e) {
       const btn = e.target.closest('button.project');
@@ -51,7 +51,7 @@ const projectsView = (function () {
         if (isFormVisible) projNameInpEl.focus();
       }, 250);
 
-      // Handles the actual submit event of the create project form Element
+      // Handle the actual submit event of the create project form Element
       addProjFormEl.addEventListener('submit', function (e) {
         e.preventDefault();
         toggleFormEl();
