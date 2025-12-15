@@ -1,4 +1,4 @@
-export let state = {
+export const state = {
   projects: [
     {
       name: 'Default',
@@ -117,16 +117,31 @@ export const deleteTodo = function (todoId) {
 };
 
 const saveData = function () {
-  localStorage.setItem('state', JSON.stringify(state));
+  localStorage.setItem('state', JSON.stringify(state.projects));
 };
 
 const init = function () {
   const storage = localStorage.getItem('state');
-  if (storage) state = JSON.parse(storage);
+  if (storage) {
+    state.projects = JSON.parse(storage);
+
+    // Rehydrate all the IOS date strings of each todo object
+    state.projects.forEach(project => {
+      project.todos.forEach(todo => {
+        todo.dueDate = new Date(todo.dueDate);
+      });
+    });
+  }
 };
 init();
 
 const clearData = function () {
   localStorage.clear('state');
+  state.projects = [
+    {
+      name: 'Default',
+      todos: [],
+    },
+  ];
 };
 // clearData();
