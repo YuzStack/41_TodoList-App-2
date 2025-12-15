@@ -186,7 +186,7 @@ const todosView = (function () {
 
       // Add new styling(s) and overwrite the textContent
       toggComplBtn.classList.add('bg-gray-400');
-      toggComplBtn.textContent = '✅ Task Completed (click to incomplete)';
+      toggComplBtn.textContent = '✅ Task Completed (click to uncheck)';
     } else {
       // Remove previous styling(s)
       toggComplBtn.classList.remove('bg-gray-400');

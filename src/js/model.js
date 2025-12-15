@@ -1,4 +1,4 @@
-export const state = {
+export let state = {
   projects: [
     {
       name: 'Default',
@@ -14,6 +14,9 @@ export const createProject = function (name) {
 
   // Add the project to state
   state.projects.push(project);
+
+  // Update local storage
+  saveData();
 
   return project;
 };
@@ -48,6 +51,9 @@ export const createTodo = function (
   }
   specProj.todos.push(todo);
 
+  // Update local storage
+  saveData();
+
   return todo;
 };
 
@@ -57,6 +63,9 @@ export const toggleChecklist = function (todoId) {
 
   // Toggle its checklist property
   todo.checklist = todo.checklist ? false : true;
+
+  // Update local storage
+  saveData();
 };
 
 export const getTodos = function (projIdx = state.activeProjIdx) {
@@ -74,29 +83,50 @@ const findTodo = function (todoId) {
 };
 
 export const getTodo = function (todoId) {
-  // 1. Find that specific todo in the state
+  // Find that specific todo in the state
   const todo = findTodo(todoId);
 
-  // 2. Return that specific todo
+  // Return that specific todo
   return todo;
 };
 
 export const editTodo = function (todoId, updTodoObj) {
-  // 1. Find that specific todo in the state
+  // Find that specific todo in the state
   const todo = findTodo(todoId);
 
-  // 2. Update the Todo's properties
+  // Update the Todo's properties
   todo.title = updTodoObj.title;
   todo.description = updTodoObj.description;
   todo.dueDate = updTodoObj.dueDate;
   todo.checklist = todo.checklist;
+
+  // Update local storage
+  saveData();
 };
 
 export const deleteTodo = function (todoId) {
-  // 1. Find that specific todo and its index in the state
+  // Find that specific todo and its index in the state
   const todo = findTodo(todoId);
   const todoIdx = state.projects[state.activeProjIdx].todos.indexOf(todo);
 
-  // 2. Delete the todo from state
+  // Delete the todo from state
   state.projects[state.activeProjIdx].todos.splice(todoIdx, 1);
+
+  // Update local storage
+  saveData();
 };
+
+const saveData = function () {
+  localStorage.setItem('state', JSON.stringify(state));
+};
+
+const init = function () {
+  const storage = localStorage.getItem('state');
+  if (storage) state = JSON.parse(storage);
+};
+init();
+
+const clearData = function () {
+  localStorage.clear('state');
+};
+// clearData();

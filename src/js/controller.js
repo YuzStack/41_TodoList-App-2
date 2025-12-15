@@ -46,7 +46,7 @@ const initDefault = function () {
     'Academics',
   );
 };
-initDefault();
+// initDefault();
 
 const controlProjDraw = function () {
   // 1. Get available projects from state
